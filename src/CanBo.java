@@ -1,10 +1,10 @@
 package src;
 
 public abstract class CanBo {
-    private String name;
-    private int age;
-    private String sex;
-    private String address;
+    protected String name;
+    protected int age;
+    protected String sex;
+    protected String address;
 
     public CanBo(String name, int age, String sex, String address) {
         this.name = name;
@@ -45,5 +45,7 @@ public abstract class CanBo {
         this.address = address;
     }
 
-    public abstract void displayInformation();
+    public String displayInformation() {
+        return "name: " + name + ", age: " + age + ", sex: " +  sex + ", address: " + address;
+    }
 }

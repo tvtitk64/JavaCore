@@ -17,7 +17,7 @@ public class CongNhan extends CanBo {
     }
 
     @Override
-    public void displayInformation() {
-        System.out.println("Cong nhan: " + getName() + ", " + getAge() + ", " + getSex() + ", " + getAddress() + ", " + getRank());
+    public String displayInformation() {
+         return super.displayInformation() + ", rank: " + rank;
     }
 }

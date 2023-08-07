@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QLCB {
-    List<CanBo> companyList = new ArrayList<>();
+    List<CanBo> staffList = new ArrayList<>();
 
     public void addPeople(CanBo canBo) {
-        companyList.add(canBo);
+        staffList.add(canBo);
     }
 
 
     public List<CanBo> searchForName(String name) {
         List<CanBo> resultList = new ArrayList<>();
-        for (CanBo company : companyList) {
+        for (CanBo company : staffList) {
             if (company.getName().equalsIgnoreCase(name)) {
                 resultList.add(company);
             }
@@ -23,7 +23,7 @@ public class QLCB {
     }
 
     public void displayResult() {
-        for (CanBo company : companyList) {
+        for (CanBo company : staffList) {
             company.displayInformation();
         }
     }

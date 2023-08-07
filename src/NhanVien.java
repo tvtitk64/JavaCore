@@ -17,8 +17,7 @@ public class NhanVien extends CanBo {
     }
 
     @Override
-    public void displayInformation() {
-        System.out.println("Nhan vien: " + getName() + ", " + getAge() + ", " + getSex() + ", " + getAddress() + ", " + getJob());
+    public String displayInformation() {
+        return super.displayInformation() + ", job " + job;
     }
-
 }

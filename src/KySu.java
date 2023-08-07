@@ -17,7 +17,7 @@ public class KySu extends CanBo{
     }
 
     @Override
-    public void displayInformation() {
-        System.out.println("Cong nhan: " + getName() + ", " + getAge() + ", " + getSex() + ", " + getAddress() + ", " + getMajor());
+    public String displayInformation() {
+        return super.displayInformation() + ", major " + major;
     }
 }
