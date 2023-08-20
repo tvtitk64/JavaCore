@@ -1,10 +1,13 @@
 package src.Training.Ex15.Model;
 
+import src.Training.Ex15.View.View;
+
 import java.util.*;
 
 public class Falcuty {
     private String falcutyName;
     private Set<Student> studentSet;
+    private View view = new View();
 
     public Falcuty(String falcutyName) {
         this.falcutyName = falcutyName;

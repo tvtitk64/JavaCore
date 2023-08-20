@@ -2,10 +2,12 @@ package src.Training.Ex15.Controller;
 
 import src.Training.Ex14.Exception.InvalidFullNameException;
 import src.Training.Ex15.Exception.InvalidDOBException;
+import src.Training.Ex15.Exception.InvalidFullnameException;
 import src.Training.Ex15.Model.Falcuty;
 import src.Training.Ex15.Model.ServiceStudent;
 import src.Training.Ex15.Model.Student;
 import src.Training.Ex15.View.Option;
+import src.Training.Ex15.View.StudentType;
 import src.Training.Ex15.View.View;
 
 import java.io.Flushable;
@@ -15,11 +17,11 @@ public class StudentManagement {
     List<Falcuty> falcutyList = new ArrayList<>();
     View view = new View();
 
-    public void userMenu() throws InvalidFullNameException, InvalidDOBException {
+    public void userMenu() throws InvalidFullnameException, InvalidDOBException {
         int menuOp;
         boolean condition = true;
         while (condition){
-            view.printMenu();
+            view.printOption();
             menuOp = new Scanner(System.in).nextInt();
             Option menu = Option.EXIT.getOption(menuOp);
             switch (menu){
@@ -70,23 +72,46 @@ public class StudentManagement {
         }
     }
 
+    public void inputStudent() throws InvalidFullnameException, InvalidDOBException {
+        view.printStudentType();
 
-    public void checkStandardStudent(String id) {
+        int studentOption = new Scanner(System.in).nextInt();
+        StudentType studentType = StudentType.getStudentType(studentOption);
+
+        String school = view.inputFalcuty();
+        Student student = view.createStudent();
+
+        switch (studentType) {
+            case STANDARD:
+                checkFalcuty(school,student);
+                break;
+
+            case SERVICE:
+                String trainningLink = view.inputTrainningLink();
+
+                Student serviceStudent = new ServiceStudent(student.getId(),student.getName(),student.getdOB(),
+                        student.getYear(),student.getScore(),trainningLink);
+                checkFalcuty(school,serviceStudent);
+                break;
+        }
+    }
+
+
+    public void checkStandardStudent() {
+        String id = view.inputStudentID();
         for (Falcuty falcuty : falcutyList) {
             Optional<Student> check = falcuty.getStudentSet().stream()
                     .filter(item -> item.equals(new Student(id)))
                     .findFirst();
             if (check.isPresent()) {
-                if (check.get() instanceof ServiceStudent)
-                    System.out.println("service student!");
-                else
-                    System.out.println("standard student!");
+                view.showStudentType(check);
             }
         }
-        System.out.println("Id doesn't exist");
+        view.showNoExistStudent();
     }
 
-    public int countStandardStudent(String falcuty) {
+    public int countStandardStudent() {
+        String falcuty = view.inputFalcuty();
         Optional<Falcuty> check = falcutyList.stream()
                 .filter(item -> item.getFalcutyName().contains(falcuty)
                 ).findFirst();
@@ -102,28 +127,29 @@ public class StudentManagement {
             }
             return count;
         } else {
-            System.out.println("Falcuty doesn't exist");
+            view.showNoExistFalcuty();
             return 0;
         }
     }
 
 
-    public void averageSemeterPointOfStudent(String id, int semeter) {
+    public void averageSemeterPointOfStudent() {
+        String id = view.inputStudentID();
+        int semeter = view.inputSemester();
         for (Falcuty falcuty : falcutyList) {
             Student checkStudent = falcuty.getStudentSet().stream()
-                    .filter(student -> student.equals(new Student(id))).findFirst().get();
+                    .filter(student -> student.equals(new Student(id))).findFirst().get(); // bỏ get
             if (checkStudent.getResult().containsKey(semeter)) {
-                System.out.println("Semeter: " + semeter + ", " + checkStudent.getResult().get(semeter));
+                view.showSemesterGPA(checkStudent, semeter);
             }
         }
     }
 
-    public void searchHighestPoint() {
-        for (Falcuty falcuty : falcutyList) {
-            System.out.println(falcuty.getFalcutyName());
-            System.out.println("\t" + falcuty.sortStudent().get(0).getName() + ": " + falcuty.sortStudent().get(0).getScore());
-        }
-    }
+//    public void searchHighestPoint() {
+//        for (Falcuty falcuty : falcutyList) {
+//            view.showHighestSemesterPoint(falcuty, falcuty.getStudentSet().);
+//        }
+//    }
 
     public void checkFalcuty(String falcuty, Student student) {
         Optional<Falcuty> checkFalcuty = falcutyList.stream().filter(falcuty1 -> falcuty1.getFalcutyName().contains(falcuty))
@@ -137,7 +163,8 @@ public class StudentManagement {
         }
     }
 
-    public void getAllServiceStudent(String linkedTrainingLocation) {
+    public void getAllServiceStudent() {
+        String linkedTrainingLocation = view.inputTrainningLink();
         for (Falcuty falcuty : falcutyList) {
             List<Student> studentList = new ArrayList<>();
             for (Student student : falcuty.getStudentSet()) {
@@ -145,11 +172,7 @@ public class StudentManagement {
                     studentList.add(student);
                 }
             }
-            System.out.println("Falcuty's name: " + falcuty.getFalcutyName());
-            System.out.println("Students found: ");
-            for (int i = 0; i < studentList.size(); i++) {
-                System.out.println("Name: " + studentList.get(i).getName());
-            }
+            view.showServiceStudent(falcuty, studentList);
         }
     }
 
@@ -168,11 +191,7 @@ public class StudentManagement {
                     studentList.add(student1);
                 }
             }
-            System.out.println("Falcuty's name: " + falcuty.getFalcutyName());
-            System.out.println("Students found: ");
-            for (int i = 0; i < studentList.size(); i++) {
-                System.out.println("Name: " + studentList.get(i).getName());
-            }
+            view.showPointOver8(falcuty, studentList);
         }
     }
 
@@ -207,7 +226,7 @@ public class StudentManagement {
         for (Falcuty falcuty : falcutyList) {
             Map<Integer, Integer> statistic = new HashMap<>();
             for (Student student : falcuty.getStudentSet()) {
-                int count = statistic.get(student.getYear());
+                int count = statistic.getOrDefault(student.getYear(), 0); //check null
                 statistic.put(student.getYear(), count++);
             }
             for (Map.Entry<Integer, Integer> entry : statistic.entrySet()) {

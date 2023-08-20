@@ -1,4 +1,4 @@
-package src.Training.Ex15.Controller;
+package src.Training.Ex15.Util;
 
 import src.Training.Ex14.Exception.InvalidFullNameException;
 import src.Training.Ex15.Exception.InvalidDOBException;
@@ -17,9 +17,6 @@ public class CheckCondition {
             throw new InvalidFullNameException("Name illegal");
     }
 
-    /**********************************
-     *            checkDOB            *
-     **********************************/
     public static void checkDOB(String doB) throws InvalidDOBException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         try {
