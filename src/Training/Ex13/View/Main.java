@@ -10,8 +10,12 @@ import java.util.*;
 public class Main {
     public static Set<Employee> employeeSet;
     public static void main(String[] args) throws PhoneException, EmailException, BirthdayException {
-        Main.employeeSet = new LinkedHashSet<>();
-        EmployeeManagement employeeManagement = new EmployeeManagement(Main.employeeSet);
-        employeeManagement.userOption();
+       try{
+           Main.employeeSet = new LinkedHashSet<>();
+           EmployeeManagement employeeManagement = new EmployeeManagement(Main.employeeSet);
+           employeeManagement.userOption();
+       } catch (Exception e) {
+           System.out.println(e.toString());
+       }
     }
 }

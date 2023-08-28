@@ -6,10 +6,13 @@ import src.Training.Ex14.Exception.InvalidPhoneNumberException;
 import src.Training.Ex14.Model.GoodStudent;
 import src.Training.Ex14.Model.NormalStudent;
 import src.Training.Ex14.Model.Student;
+import src.Training.Ex14.Repository.StudentRepository;
 import src.Training.Ex14.View.Level;
 import src.Training.Ex14.View.Option;
 import src.Training.Ex14.View.Show;
+import src.Training.Ex14.utils.validator.CheckCondition;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,7 +28,7 @@ public class CandidatesRecruitment {
         System.out.println("4. Exit: ");
     }
 
-    public void userChooseOption() throws InvalidPhoneNumberException, InvalidDOBException, InvalidFullNameException {
+    public void userChooseOption() throws InvalidPhoneNumberException, InvalidDOBException, InvalidFullNameException, SQLException {
         int choice;
         while (true) {
             printOption();
@@ -49,7 +52,7 @@ public class CandidatesRecruitment {
         }
     }
 
-    public void addStudent() throws InvalidPhoneNumberException, InvalidDOBException, InvalidFullNameException {
+    public void addStudent() throws InvalidPhoneNumberException, InvalidDOBException, InvalidFullNameException, SQLException {
         System.out.println("Enter student's information");
         System.out.println("Name: ");
         String fullName = scanner.nextLine();
@@ -74,15 +77,18 @@ public class CandidatesRecruitment {
                 System.out.println("Best reward: ");
                 String bestReward = scanner.nextLine();
                 Student goodStudent = new GoodStudent(fullName, dateOfBirth,phoneNumber, sex, universityName, Level.getString(Level.GOOD), gpa, bestReward);
-                studentList.add(goodStudent);
+//                studentList.add(goodStudent);
+                StudentRepository.insertGoodStudent((GoodStudent) goodStudent);
                 break;
+
             case NORMAL:
                 System.out.println("Enter english score: ");
                 int englishScore = scanner.nextInt();
                 System.out.println("Entry Test Score: ");
                 int entryTestScore = scanner.nextInt();
                 Student normalStudent = new NormalStudent(fullName, dateOfBirth,phoneNumber, sex, universityName, Level.getString(Level.NORMAL), englishScore, entryTestScore);
-                studentList.add(normalStudent);
+//                studentList.add(normalStudent);
+                StudentRepository.insertNormalStudent((NormalStudent) normalStudent);
                 break;
         }
     }

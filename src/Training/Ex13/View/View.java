@@ -48,7 +48,7 @@ public class View {
         Validator.birthdayCheck(birthDay);
 
         System.out.println("Phone: ");
-        int phone = scanner.nextInt();
+        String phone = scanner.nextLine();
         Validator.phoneCheck(phone);
 
         System.out.println("Email: ");

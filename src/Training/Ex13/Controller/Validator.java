@@ -22,9 +22,9 @@ public class Validator {
         }
     }
 
-    public static void phoneCheck(int phone) throws PhoneException {
-        String string = Integer.toString(phone);
-        if (string.length() == 10 && string.charAt(0) == '0')
+    public static void phoneCheck(String phone) throws PhoneException {
+//        String string = Integer.toString(phone);
+        if (phone.length() == 10 && phone.charAt(0) == '0')
             return;
         else
             throw new PhoneException("Phone illegal");

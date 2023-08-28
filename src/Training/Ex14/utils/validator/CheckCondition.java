@@ -1,4 +1,4 @@
-package src.Training.Ex14.Controller;
+package src.Training.Ex14.utils.validator;
 
 import src.Training.Ex14.Exception.InvalidDOBException;
 import src.Training.Ex14.Exception.InvalidFullNameException;
@@ -12,13 +12,13 @@ import java.util.Date;
 import java.util.List;
 
 public class CheckCondition {
-    protected static void checkFullName(String fullName) throws InvalidFullNameException {
+    public static void checkFullName(String fullName) throws InvalidFullNameException {
         if (fullName.length() > 50 || fullName.length() < 10) {
             throw new InvalidFullNameException("Invalid full name!");
         }
     }
 
-    protected static void checkDOB(String doB) throws InvalidDOBException {
+    public static void checkDOB(String doB) throws InvalidDOBException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateFormat.setLenient(false);
         String doBString = dateFormat.format(doB);
@@ -28,7 +28,7 @@ public class CheckCondition {
         }
     }
 
-    protected static void checkPhoneNumber(String phoneNumber) throws InvalidPhoneNumberException {
+    public static void checkPhoneNumber(String phoneNumber) throws InvalidPhoneNumberException {
         String[] validPrefixes = {"090", "098", "091", "031", "035", "038"};
 
         boolean isValidPrefix = false;
@@ -44,7 +44,7 @@ public class CheckCondition {
         }
     }
 
-    protected static Date parseDate(String dateString) {
+    public static Date parseDate(String dateString) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
             return dateFormat.parse(dateString);
