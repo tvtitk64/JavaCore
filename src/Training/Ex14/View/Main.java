@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) throws InvalidPhoneNumberException, InvalidFullNameException, InvalidDOBException, OtherException {
         try {
             CandidatesRecruitment candidatesRecruitment = new CandidatesRecruitment();
-            candidatesRecruitment.printOption();
+            candidatesRecruitment.userChooseOption();
         } catch (Exception e) {
             throw new OtherException("Input files have unknown errors");
         }

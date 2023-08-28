@@ -6,9 +6,9 @@ public class Certificate {
     private String certificateId;
     private String certificateName;
     private String certificateRank;
-    private LocalDate certificateDate;
+    private String certificateDate;
 
-    public Certificate(String certificateId, String certificateName, String certificateRank, LocalDate certificateDate) {
+    public Certificate(String certificateId, String certificateName, String certificateRank, String certificateDate) {
         this.certificateId = certificateId;
         this.certificateName = certificateName;
         this.certificateRank = certificateRank;
@@ -39,11 +39,19 @@ public class Certificate {
         this.certificateRank = certificateRank;
     }
 
-    public LocalDate getCertificateDate() {
+    public String getCertificateDate() {
         return certificateDate;
     }
 
-    public void setCertificateDate(LocalDate certificateDate) {
+    public void setCertificateDate(String certificateDate) {
         this.certificateDate = certificateDate;
+    }
+
+    public void showCertificate() {
+        System.out.println("Certificate ID: " + certificateId);
+        System.out.println("Certificate name: " + certificateName);
+        System.out.println("Certificate rank: " + certificateRank);
+        System.out.println("Certificate date: " + certificateDate);
+        System.out.println();
     }
 }

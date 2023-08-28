@@ -5,27 +5,29 @@ import src.Training.Ex13.Exception.EmailException;
 import src.Training.Ex13.Exception.FullnameException;
 import src.Training.Ex13.Exception.PhoneException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
 
 public class Validator {
-    public static void birthdayCheck(LocalDate birthday) throws BirthdayException {
-        LocalDate currentDate = LocalDate.now();
+    public static void birthdayCheck(String birthday) throws BirthdayException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        try {
+            Date date = formatter.parse(birthday);
 
-        if (birthday.isAfter(currentDate)) {
-            throw new BirthdayException("Invalid birthday. Birthday cannot be in the future.");
-        } else if (birthday.getMonthValue() > 12 || birthday.getMonthValue() < 1) {
-            throw new BirthdayException("Invalid birthday. Month of birthday invalid.");
-        } else if (birthday.getDayOfMonth() > 12 || birthday.getDayOfMonth() < 1) {
-            throw new BirthdayException("Invalid birthday. Day of birthday invalid.");
+        } catch (ParseException e) {
+            throw new BirthdayException("Date illegal");
         }
     }
 
-    public static void phoneCheck(String phone) throws PhoneException {
-        String pattern = "^\\d{10}$";
-
-        if (!phone.matches(pattern)) {
-            throw new PhoneException("Invalid phone number. Phone number must be a 10-digit number.");
-        }
+    public static void phoneCheck(int phone) throws PhoneException {
+        String string = Integer.toString(phone);
+        if (string.length() == 10 && string.charAt(0) == '0')
+            return;
+        else
+            throw new PhoneException("Phone illegal");
     }
 
     public static void emailCheck(String email) throws EmailException {
